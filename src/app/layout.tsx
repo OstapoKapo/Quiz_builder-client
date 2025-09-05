@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Montserrat } from "next/font/google";
+import { Geist, Montserrat } from "next/font/google";
+import { Toaster } from 'react-hot-toast';
 import "./globals.css";
 import Header from "./components/layout/header/header";
+import { FilterProvider } from "@/store/FilterContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +33,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${montserrat.variable} antialiased`}
       >
-        <Header/>
-        {children}
+        <FilterProvider>
+          <Header />
+          {children}
+          <Toaster position='top-right' reverseOrder={false}/>
+        </FilterProvider>
       </body>
     </html>
   );

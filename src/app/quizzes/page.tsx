@@ -1,47 +1,86 @@
 import { IQuiz } from "@/types";
-import Quiz from "../components/ui/quiz/quiz";
+import QuizzesContainer from "../components/containers/quizzesContainer/quizzesContainer";
+
 
 const QuizzesPage = () => {
 
     const arr = [
         {
-            title: 'Quiz 1',
-            description: 'Description for Quiz 1',
-            questions: 10,
-            id: 1
+             title: "Sample ",
+            description: "This is a sample quiz description.",
+    questions: 8,
+    id: 1,
+    passed: 4,
+    difficulty: "Hard",
+    time: 12
         },
         {
-            title: 'Quiz 1',
-            description: 'Description for Quiz 1',
-            questions: 10,
-            id: 2
+            title: "Quiz",
+    description: "This is a sample quiz description.",
+    questions: 2,
+    id: 2,
+    passed: 4,
+    difficulty: "Medium",
+    time: 20
         },
         {
-            title: 'Quiz 1',
-            description: 'Description for Quiz 1',
-            questions: 10,
-            id: 3   
+            title: "Ostap",
+    description: "This is a sample quiz description.",
+    questions: 20,
+    id: 3,
+    passed: 10,
+    difficulty: "Easy",
+    time: 30 
         },
         {
-            title: 'Quiz 1',
-            description: 'Description for Quiz 1',
-            questions: 10,
-            id: 4
+            title: "Sample Ostap",
+    description: "This is a sample quiz description.",
+    questions: 2,
+    id: 4,
+    passed: 1,
+    difficulty: "Hard",
+    time: 7
         },
         {
-            title: 'Quiz 1',
-            description: 'Description for Quiz 1 Description for Quiz 1 Description for Quiz 1 Description for Quiz 1',
-            questions: 10,
-            id: 5
+             title: "Ostap Quiz",
+    description: "This is a sample quiz description.",
+    questions: 5,
+    id: 5,
+    passed: 12,
+    difficulty: "Medium",
+    time: 9
+        },
+        {
+             title: "Ostap Quiz",
+    description: "This is a sample quiz description.",
+    questions: 5,
+    id: 6,
+    passed: 12,
+    difficulty: "Medium",
+    time: 9
+        },
+        {
+             title: "Ostap Quiz",
+    description: "This is a sample quiz description.",
+    questions: 5,
+    id: 7,
+    passed: 12,
+    difficulty: "Medium",
+    time: 9
+        },
+        {
+             title: "Ostap Quiz",
+    description: "This is a sample quiz description.",
+    questions: 5,
+    id: 8,
+    passed: 12,
+    difficulty: "Medium",
+    time: 9
         }
-    ]
+    ] as IQuiz[];
 
     return (
-        <main className="p-10 mt-5 gap-5 flex flex-wrap">
-            {arr.map((quiz: IQuiz, index: number) => (
-                <Quiz key={quiz.id} quiz={quiz}/>
-            ))}
-        </main>
+        <QuizzesContainer quizzes={arr} />
     )
 }
 

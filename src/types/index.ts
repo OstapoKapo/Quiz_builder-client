@@ -3,4 +3,7 @@ export interface IQuiz {
     description: string;
     questions: number;
     id: number;
+    difficulty: "Easy" | "Medium" | "Hard";
+    time: number;
+    passed: number;
 }
