@@ -20,7 +20,18 @@
 }
 
 body {
-  background: linear-gradient(125deg, rgb(165, 180, 252), rgb(79, 70, 229));
+  background: #092241;
   color: var(--foreground);
-  font-family: --font-montserrat;
+  font-family: var(--font-montserrat);
+  padding: 10px 20px;
+}
+
+button, input {
+  cursor: pointer;
+}
+
+.center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

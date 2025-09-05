@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
+import Header from "./components/layout/header/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
   title: "Quizes Builder",
   description: "A platform for creating and managing quizzes, creating for practice task",
   icons: {
-    icon: "/icon.png",
+    icon: "/icons/quiz.svg",
   }
 };
 
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${montserrat.variable} antialiased`}
       >
+        <Header/>
         {children}
       </body>
     </html>
