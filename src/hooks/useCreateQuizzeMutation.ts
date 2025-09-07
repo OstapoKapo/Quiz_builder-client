@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createQuizAPI } from "@/api/quizesAPI";
+import { useRouter } from "next/navigation";
 
 export default function useCreateQuizMutation() {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: createQuizAPI,
@@ -20,6 +22,9 @@ export default function useCreateQuizMutation() {
       });
 
       return { previousQuizzes };
+    },
+    onSuccess: (data) => {
+      router.push(`/quizzes/${data.id}`);
     },
     onError: (_err, _newQuiz, context) => {
       if (context?.previousQuizzes) {

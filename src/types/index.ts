@@ -7,10 +7,6 @@ export interface IQuiz {
     time: number;
 }
 
-export interface UserAnswer {
-  questionId: number;
-  answer: string | number | number[]; // в залежності від типу питання
-};
     
 export interface IQuestion {
   type:  "single" | "multiple" | "text";
@@ -18,4 +14,11 @@ export interface IQuestion {
   options?: string[];
   correct?: number | number[] | string;
   id: number;
+}
+
+export interface PrimitiveAnswer{
+   value: string | number;
+}
+export interface UserAnswer {
+  [questionId: number]: string | string[] | number;
 }

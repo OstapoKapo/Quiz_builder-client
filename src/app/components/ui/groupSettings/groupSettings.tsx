@@ -15,9 +15,9 @@ const GroupSettings: FC<GroupSettingsProps> = ({ setOpen, setSortBy, setOrder, o
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-        if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
+          if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
             setOpen(false);
-        }
+          }
         };
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -46,9 +46,7 @@ const GroupSettings: FC<GroupSettingsProps> = ({ setOpen, setSortBy, setOrder, o
                 <label className="text-gray-600 text-sm font-medium">
                   Sort by:
                 </label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => handleSortChange(e.target.value)}
+                <select value={sortBy} onChange={(e) => handleSortChange(e.target.value)}
                   className="border border-black text-black rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 >
                   <option value="time">Time</option>
@@ -61,9 +59,7 @@ const GroupSettings: FC<GroupSettingsProps> = ({ setOpen, setSortBy, setOrder, o
                 <label className="text-gray-600 text-sm font-medium">
                   Order:
                 </label>
-                <select
-                  value={order}
-                  onChange={(e) => handleOrderChange(e.target.value as "asc" | "desc")}
+                <select value={order} onChange={(e) => handleOrderChange(e.target.value as "asc" | "desc")}
                   className="border border-black text-black  rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 >
                   <option value="asc">Ascending</option>

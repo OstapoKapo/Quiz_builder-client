@@ -5,6 +5,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getQuizByIdAPI, submitQuizAPI } from "@/api/quizesAPI";
 import { toast } from "react-hot-toast";
+import { UserAnswer } from "@/types";
+import SingleChoiceOptions from "@/app/components/ui/quizPlay/SingleChoiceOptions/SingleChoiceOptions";
+import MultipleChoiceOptions from "@/app/components/ui/quizPlay/multiChoiseOptions/multiChoiseOptions";
+import TextAnswer from "@/app/components/ui/quizPlay/textAnswer/textAnswer";
+import QuizNavigationButtons from "@/app/components/ui/quizPlay/quizNavigationButtons/quizNavigationButtons";
+import QuizTimer from "@/app/components/ui/quizPlay/quizTimer/quizTimer";
 
 const QuizPlayPage: FC = () => {
   const { id } = useParams();
@@ -18,8 +24,10 @@ const QuizPlayPage: FC = () => {
   const quiz = data?.data;
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<{ [key: number]: any }>({});
+  const [answers, setAnswers] = useState<UserAnswer>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(quiz?.time * 60 || 0); 
+
 
   if (isLoading) return <div>Loading quiz...</div>;
   if (isError || !quiz || !quiz.questions) return <div>Error loading quiz</div>;
@@ -45,8 +53,8 @@ const QuizPlayPage: FC = () => {
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true);
-      const correct = await submitQuizAPI(quiz.id, answers);
-      toast.success(`✅ Quiz submitted! You have ${correct.correct} correct answers.`);
+      const {correct} = await submitQuizAPI(parseInt(quiz.id), answers);
+      toast.success(`Quiz submitted! You got ${correct} out of ${quiz.questions.length} correct.`);
       router.push("/quizzes");
     } catch (error) {
       toast.error("Something went wrong while submitting.");
@@ -55,15 +63,23 @@ const QuizPlayPage: FC = () => {
     }
   };
 
+  const onTimeEnd = () => {
+    toast.error("Time's up! Submitting your answers...");
+    router.push("/quizzes");
+  }
+
   const isAnswered = answers[currentQuestion.id] && (
-    Array.isArray(answers[currentQuestion.id])
-      ? answers[currentQuestion.id].length > 0
-      : answers[currentQuestion.id] !== ""
+    Array.isArray(answers[currentQuestion.id]) ? 
+    (answers[currentQuestion.id] as string[]).length > 0 : 
+    typeof answers[currentQuestion.id] === 'string' ? answers[currentQuestion.id] !== "" : true
   );
 
   return (
     <main className="max-w-2xl mx-auto py-10 flex flex-col gap-6">
-      <h1 className="text-3xl font-bold">{quiz.title}</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">{quiz.title}</h1>
+        <QuizTimer initialTime={quiz.time} onTimeEnd={() => onTimeEnd()} />
+      </div>
       <p className="text-gray-600">{quiz.description}</p>
 
       <div className="p-4 border rounded-lg flex flex-col gap-3">
@@ -72,83 +88,43 @@ const QuizPlayPage: FC = () => {
         </h2>
         <p>{currentQuestion.text}</p>
 
-        {/* SINGLE CHOICE */}
         {currentQuestion.type === "single" && currentQuestion.options && (
-          <div className="flex flex-col gap-2">
-            {currentQuestion.options.map((opt: string, i: number) => (
-              <label key={`$${currentQuestion.id}-${i}-${opt}`} className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name={`question-${currentQuestion.id}`}
-                  value={opt}
-                  checked={answers[currentQuestion.id] === opt}
-                  onChange={() => handleChange(currentQuestion.id, opt)}
-                />
-                {opt}
-              </label>
-            ))}
-          </div>
-        )}
-        {currentQuestion.type === "multiple" && currentQuestion.options && (
-          <div className="flex flex-col gap-2">
-            {currentQuestion.options.map((opt: string, i: number) => (
-              <label key={`${currentQuestion.id}-${i}-${opt}`} className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  value={opt}
-                  checked={answers[currentQuestion.id]?.includes(opt) || false}
-                  onChange={(e) => {
-                    const prev = answers[currentQuestion.id] || [];
-                    if (e.target.checked) {
-                      handleChange(currentQuestion.id, [...prev, opt]);
-                    } else {
-                      handleChange(currentQuestion.id, prev.filter((a: string) => a !== opt));
-                    }
-                  }}
-                />
-                {opt}
-              </label>
-            ))}
-          </div>
-        )}
-        {currentQuestion.type === "text" && (
-          <input
-            type="text"
-            value={answers[currentQuestion.id] || ""}
-            onChange={(e) => handleChange(currentQuestion.id, e.target.value)}
-            className="border p-2 rounded w-full"
-            placeholder="Enter your answer"
+          <SingleChoiceOptions
+            options={currentQuestion.options}
+            selected={answers[currentQuestion.id] as string | undefined}
+            onChange={(value) => handleChange(currentQuestion.id, value)}
+            questionId={currentQuestion.id}
           />
         )}
-      </div>
 
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={handlePrevious}
-          disabled={currentQuestionIndex === 0}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Previous
-        </button>
-
-        {currentQuestionIndex < quiz.questions.length - 1 ? (
-          <button
-            onClick={handleNext}
-            disabled={!isAnswered}
-            className="px-4 py-2 bg-[#6F51F8] text-white rounded disabled:opacity-50"
-          >
-            Next
-          </button>
-        ) : (
-          <button
-            onClick={handleSubmit}
-            disabled={!isAnswered || isSubmitting}
-            className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-50"
-          >
-            {isSubmitting ? "Submitting..." : "Submit Quiz"}
-          </button>
+        {currentQuestion.type === "multiple" && currentQuestion.options && (
+          <MultipleChoiceOptions
+            options={currentQuestion.options}
+            selected={answers[currentQuestion.id] as string[]}
+            onChange={(value) => handleChange(currentQuestion.id, value)}
+            questionId={currentQuestion.id}
+          />
         )}
+
+        {currentQuestion.type === "text" && (
+          <TextAnswer
+            value={String(answers[currentQuestion.id] || "")}
+            onChange={(value) => handleChange(currentQuestion.id, value)}
+          />
+        )}
+
       </div>
+
+      <QuizNavigationButtons
+        onPrevious={handlePrevious}
+        onNext={handleNext}
+        onSubmit={handleSubmit}
+        disablePrevious={currentQuestionIndex === 0}
+        disableNext={currentQuestionIndex === quiz.questions.length - 1 || !isAnswered}
+        disableSubmit={!isAnswered || isSubmitting}
+        isSubmitting={isSubmitting}
+        isLastQuestion={currentQuestionIndex === quiz.questions.length - 1}
+      />
     </main>
   );
 };

@@ -35,10 +35,8 @@ const QuizzesContainer: FC<IQuizzesContainerProps> = ({ quizzes }) => {
     const sortedQuizzes = useSortedQuizzes(quizzesArray, sortBy, order, search);
 
     const pages =  chunkArray(sortedQuizzes, itemsPerPage);
-    console.log(pages);
 
 
-   
     return (
         <main className="py-5 gap-5 flex flex-col">
             <Filter setSearch={setSearch} search={search} sortBy={sortBy} setSortBy={setSortBy} order={order} setOrder={setOrder} />

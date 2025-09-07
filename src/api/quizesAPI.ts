@@ -21,7 +21,7 @@ export const deleteQuizAPI = async (id: number) => {
   return response.data;
 };
 
-export const submitQuizAPI = async (quizId: number, answers: { [questionId: number]: any }) => {
+export const submitQuizAPI = async (quizId: number, answers: UserAnswer) => {
   const response = await axiosInstance.post(`/quizzes/${quizId}/submit`, answers);
   return response.data;
 }
