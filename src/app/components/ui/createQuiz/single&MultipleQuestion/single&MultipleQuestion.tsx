@@ -1,11 +1,4 @@
-import { IQuestion } from "@/types";
-
-interface SingleAndMultipleQuestionProps {
-    question: IQuestion;
-    index: number;
-    updateOption: (qIndex: number, oIndex: number, value: string) => void;
-    setCorrectAnswer: (qIndex: number, value: number | number[] | string) => void;
-}
+import { SingleAndMultipleQuestionProps } from "@/types";
 
 const SingleAndMultipleQuestion: React.FC<SingleAndMultipleQuestionProps> = ({ question, index, updateOption, setCorrectAnswer }) => {
     return(

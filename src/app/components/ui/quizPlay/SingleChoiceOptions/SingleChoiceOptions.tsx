@@ -1,11 +1,5 @@
+import { SingleChoiceOptionsProps } from "@/types";
 import { FC } from "react";
-
-interface SingleChoiceOptionsProps {
-  options: string[];
-  selected: string | undefined;
-  onChange: (value: string) => void;
-  questionId: number;
-}
 
 const SingleChoiceOptions: FC<SingleChoiceOptionsProps> = ({ options, selected, onChange, questionId }) => (
   <div className="flex flex-col gap-2">

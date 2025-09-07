@@ -1,17 +1,9 @@
 import { FC } from "react";
-import { IQuestion } from "@/types";
+import { QuestionEditorProps } from "@/types";
 import SingleAndMultipleQuestion from "../single&MultipleQuestion/single&MultipleQuestion";
 
 type QuestionType = "single" | "multiple" | "text";
 
-interface QuestionEditorProps {
-  question: IQuestion;
-  index: number;
-  onDelete: () => void;
-  updateQuestion: (index: number, field: keyof IQuestion, value: any) => void;
-  updateOption: (qIndex: number, oIndex: number, value: string) => void;
-  setCorrectAnswer: (qIndex: number, value: number | number[] | string) => void;
-}
 
 const QuestionEditor: FC<QuestionEditorProps> = ({
   question,

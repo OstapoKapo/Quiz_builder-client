@@ -5,7 +5,6 @@ import {X} from "lucide-react";
 import { useRouter } from "next/navigation";
 import useDeleteQuizzeMutation from "@/hooks/useDeleteQuizMutation";
 import { toast } from "react-hot-toast";
-import { parse } from "path";
 import { parseAxiosError } from "@/utils/parseAxiosError";
 
 interface IQuizProps {

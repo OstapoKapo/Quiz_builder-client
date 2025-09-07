@@ -1,13 +1,6 @@
+import { GroupSettingsProps } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
-import { FC, useEffect, useRef, useState } from "react";
-
-interface GroupSettingsProps {
-    setOpen: (open: boolean) => void;
-    setSortBy: (sortBy: string) => void;
-    setOrder: (order: "asc" | "desc") => void;
-    order: "asc" | "desc";
-    sortBy: string;
-}
+import { FC, useEffect, useRef } from "react";
 
 const GroupSettings: FC<GroupSettingsProps> = ({ setOpen, setSortBy, setOrder, order, sortBy }) => {
 

@@ -1,11 +1,5 @@
+import { MultipleChoiceOptionsProps } from "@/types";
 import { FC } from "react";
-
-interface MultipleChoiceOptionsProps {
-  options: string[];
-  selected: string[];
-  onChange: (values: string[]) => void;
-  questionId: number;
-}
 
 const MultipleChoiceOptions: FC<MultipleChoiceOptionsProps> = ({ options, selected, onChange, questionId }) => {
   const safeSelected = selected || [];

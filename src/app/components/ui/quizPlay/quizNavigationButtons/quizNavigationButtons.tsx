@@ -1,15 +1,7 @@
+import { NavigationButtonsProps } from "@/types";
 import { FC } from "react";
 
-interface NavigationButtonsProps {
-  onPrevious: () => void;
-  onNext: () => void;
-  onSubmit: () => void;
-  disablePrevious: boolean;
-  disableNext: boolean;
-  disableSubmit: boolean;
-  isSubmitting: boolean;
-  isLastQuestion: boolean;
-}
+
 
 const NavigationButtons: FC<NavigationButtonsProps> = ({
   onPrevious,

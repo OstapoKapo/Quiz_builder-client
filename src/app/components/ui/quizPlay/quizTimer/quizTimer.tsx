@@ -1,14 +1,11 @@
-import { time } from "console";
-import { on } from "events";
+
+import { QuizTimerProps } from "@/types";
 import { FC, useEffect, useState } from "react";
 
-interface QuizTimerProps {
-  initialTime: number; // у хвилинах
-  onTimeEnd: () => void;
-}
 
 
-const QuizTimer: FC<QuizTimerProps> = ({ initialTime, onTimeEnd }: QuizTimerProps) => {
+
+const QuizTimer: FC<QuizTimerProps> = ({ initialTime, onTimeEnd }) => {
     const [timeLeft, setTimeLeft] = useState(initialTime * 60); 
 
     useEffect(()=>{

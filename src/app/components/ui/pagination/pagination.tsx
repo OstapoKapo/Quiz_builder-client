@@ -1,11 +1,6 @@
-import { IQuiz } from "@/types";
+import { PaginationProps } from "@/types";
 import { FC } from "react";
 
-interface PaginationProps {
-    setCurrentPage: (page: number) => void;
-    currentPage: number;
-    pages: IQuiz[][];
-}
 
 const Pagination: FC<PaginationProps> = ({ setCurrentPage, currentPage, pages }) => {
 

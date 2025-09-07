@@ -3,17 +3,11 @@ import useCreateQuizzeMutation from "@/hooks/useCreateQuizzeMutation";
 import { useQuizValidation } from "@/hooks/useQuizValidation";
 import { IQuestion, IQuiz } from "@/types";
 import { parseAxiosError } from "@/utils/parseAxiosError";
-import { useRouter } from "next/navigation";
-import {  use, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import QuestionEditor from "../components/ui/createQuiz/questionEditor/questionEditor";
 
-
-type QuestionType = "single" | "multiple" | "text";
-
 export default function CreateQuizPage() {
-
-  const router = useRouter();
 
   const [quiz, setQuiz] = useState<IQuiz>({
     title: "",

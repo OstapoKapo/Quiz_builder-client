@@ -1,17 +1,10 @@
 'use client'
 import { useFilter } from "@/store/FilterContext";
-import { Group, ListFilter, Search } from "lucide-react";
+import { Group, Search } from "lucide-react";
 import { FC, useState } from "react";
 import GroupSettings from "../groupSettings/groupSettings";
+import { FilterProps } from "@/types";
 
-interface FilterProps {
-    sortBy: string;
-    setSortBy: (sortBy: string) => void;
-    order: "asc" | "desc";
-    setOrder: (order: "asc" | "desc") => void;
-    search: string;
-    setSearch: (search: string) => void;
-}
 
 const Filter: FC<FilterProps> = ({ sortBy, setSortBy, order, setOrder, search, setSearch }) => {
     const { filterOpen } = useFilter();
