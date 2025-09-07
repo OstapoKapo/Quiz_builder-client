@@ -36,6 +36,8 @@ const QuizzesContainer: FC<IQuizzesContainerProps> = ({ quizzes }) => {
 
     const pages =  chunkArray(sortedQuizzes, itemsPerPage);
 
+    console.log(pages)
+
 
     return (
         <main className="py-5 gap-5 flex flex-col">
