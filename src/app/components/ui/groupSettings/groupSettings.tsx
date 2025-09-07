@@ -51,7 +51,6 @@ const GroupSettings: FC<GroupSettingsProps> = ({ setOpen, setSortBy, setOrder, o
                   onChange={(e) => handleSortChange(e.target.value)}
                   className="border border-black text-black rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                 >
-                  <option value="passed">Passed</option>
                   <option value="time">Time</option>
                   <option value="questions">Questions</option>
                   <option value="difficulty">Difficulty</option>

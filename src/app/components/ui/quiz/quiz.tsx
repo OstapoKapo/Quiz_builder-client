@@ -3,6 +3,10 @@ import { IQuiz } from "@/types";
 import { FC } from "react";
 import {X} from "lucide-react";
 import { useRouter } from "next/navigation";
+import useDeleteQuizzeMutation from "@/hooks/useDeleteQuizMutation";
+import { toast } from "react-hot-toast";
+import { parse } from "path";
+import { parseAxiosError } from "@/utils/parseAxiosError";
 
 interface IQuizProps {
     quiz: IQuiz;
@@ -11,12 +15,22 @@ interface IQuizProps {
 const Quiz: FC<IQuizProps> = ({ quiz }) => {
     const router = useRouter();
 
+    const deleteQuizMutation = useDeleteQuizzeMutation();
+
     const handleOpenQuiz = (e: React.MouseEvent<HTMLDivElement>) => {
         router.push(`/quizzes/${quiz.id}`);
     }
 
     const handleDeleteQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
+        deleteQuizMutation.mutate(quiz.id as number, {
+            onSuccess: () => {                
+                toast.success("Quiz deleted successfully!");
+            },
+            onError: (error: any) => {
+                toast.error(parseAxiosError(error));
+            }
+        });
     }
 
     return (
@@ -32,7 +46,7 @@ const Quiz: FC<IQuizProps> = ({ quiz }) => {
                 <p className="text-white">{quiz.description}</p>
             </div>
             <div className="flex gap-3">
-                <span className="text-white">questions: <span className="font-semibold">{quiz.questions}</span></span>
+                <span className="text-white">questions: <span className="font-semibold">{quiz.questions.length}</span></span>
                 <span className="text-white">difficulty: <span className="font-semibold">{quiz.difficulty}</span></span>
                 <span className="text-white">time: <span className="font-semibold">{quiz.time}</span></span>
             </div>

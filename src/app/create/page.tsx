@@ -1,50 +1,45 @@
 'use client'
-import { useState } from "react";
+import useCreateQuizzeMutation from "@/hooks/useCreateQuizzeMutation";
+import { IQuestion, IQuiz } from "@/types";
+import { parseAxiosError } from "@/utils/parseAxiosError";
+import { useRouter } from "next/navigation";
+import { use, useState } from "react";
 import toast from "react-hot-toast";
+
 
 type QuestionType = "single" | "multiple" | "text";
 
-interface Question {
-  type: QuestionType;
-  text: string;
-  options?: string[];
-  correct?: number | number[] | string;
-}
-
-interface QuizForm {
-  title: string;
-  description: string;
-  difficulty: string;
-  maxTime: number;
-  questions: Question[];
-}
-
 export default function CreateQuizPage() {
-  const [quiz, setQuiz] = useState<QuizForm>({
+
+  const router = useRouter();
+
+  const [quiz, setQuiz] = useState<IQuiz>({
     title: "",
     description: "",
     difficulty: "Medium",
-    maxTime: 10,
+    time: 10,
     questions: [],
   });
+
+  const quizzeCreateMutation = useCreateQuizzeMutation();
 
   const addQuestion = () => {
     setQuiz({
       ...quiz,
       questions: [
         ...quiz.questions,
-        { type: "single", text: "", options: ["", "", ""], correct: 0 },
+        { type: "single", text: "", options: ["", "", ""], correct: 0, id: Date.now() + 1 },
       ],
     });
   };
 
-  const updateQuizField = (field: keyof QuizForm, value: any) => {
+  const updateQuizField = (field: keyof IQuiz, value: any) => {
     setQuiz({ ...quiz, [field]: value });
   };
 
-  const updateQuestion = (index: number, field: keyof Question, value: any) => {
+  const updateQuestion = (index: number, field: keyof IQuestion, value: any) => {
     const newQuestions = [...quiz.questions];
-    newQuestions[index][field] = value;
+    (newQuestions[index] as any)[field] = value;
     setQuiz({ ...quiz, questions: newQuestions });
   };
 
@@ -65,7 +60,7 @@ export default function CreateQuizPage() {
   const validateQuiz = (): { valid: boolean; message: string } => {
     if (!quiz.title.trim()) return { valid: false, message: "Title is required" };
     if (!quiz.description.trim()) return { valid: false, message: "Description is required" };
-    if (!quiz.maxTime || quiz.maxTime <= 0) return { valid: false, message: "Max time should be greater than 0" };
+    if (!quiz.time || quiz.time <= 0) return { valid: false, message: "Max time should be greater than 0" };
 
     for (let i = 0; i < quiz.questions.length; i++) {
       const q = quiz.questions[i];
@@ -95,9 +90,20 @@ export default function CreateQuizPage() {
       toast.error(validation.message);
       return;
     }
-    console.log("Quiz Data:", quiz);
-    // Тут можна викликати API для збереження
+    createQuiz();
   };
+
+  const createQuiz = () => {
+    quizzeCreateMutation.mutate(quiz, {
+      onSuccess: (data) => {
+        toast.success("Quiz created successfully!");
+        router.push(`/quizzes/${data.id}`);
+      },
+      onError: (error: any) => {
+        toast.error(parseAxiosError(error));
+      },
+    })
+  }
 
   return (
     <div className="p-5 max-w-3xl mx-auto">
@@ -124,8 +130,8 @@ export default function CreateQuizPage() {
         className="border p-2 w-full mb-2"
         type="number"
         placeholder="Max Time (min)"
-        value={quiz.maxTime}
-        onChange={(e) => updateQuizField("maxTime", Number(e.target.value))}
+        value={quiz.time}
+        onChange={(e) => updateQuizField("time", Number(e.target.value))}
       />
 
       <label className="block mb-2 font-semibold">Difficulty:</label>

@@ -12,7 +12,7 @@ const Header = () => {
     const { filterOpen, setFilterOpen } = useFilter();
 
     const handleBack = () => {
-        router.back();
+        router.push('/quizzes');
     }
 
     return (
