@@ -42,7 +42,7 @@ const QuizzesContainer: FC<IQuizzesContainerProps> = ({ quizzes }) => {
     return (
         <main className="py-5 gap-5 flex flex-col">
             <Filter setSearch={setSearch} search={search} sortBy={sortBy} setSortBy={setSortBy} order={order} setOrder={setOrder} />
-            <h1 className="text-2xl font-bold mt-3">Quizzes:</h1>
+            <h1 className="text-2xl font-bold mt-3 ml-3">Quizzes:</h1>
             {quizzes.length === 0 ? <div className="text-center text-gray-500">No quizzes found. Create the first one!</div> : (
             <>
             <div className="p-5 gap-5 min-h-115 flex flex-wrap justify-center">
