@@ -7,7 +7,8 @@ import { getAllQuizzesAPI } from "@/api/quizesAPI";
 const QuizzesPage = async () => {
     try {
         const data = await getAllQuizzesAPI();
-        const quizzes: IQuiz[] = data?.data || []; // якщо пусто, повертаємо порожній масив
+        const quizzes: IQuiz[] = data?.data || []; 
+        console.log(quizzes)
         return <QuizzesContainer quizzes={quizzes} />;
     } catch(error) {
         console.error(error);
