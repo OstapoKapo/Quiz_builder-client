@@ -16,9 +16,9 @@ const Header = () => {
     }
 
     return (
-        <header className="flex items-center justify-between p-2 md:p-5">
+        <header className="flex items-center justify-between ">
             <div className="flex items-center gap-2">
-                <Image src="/icons/quiz.svg" className="cursor-pointer" alt="Quiz Icon" width={50} height={50} />
+                <Image src="/icons/quiz.svg" className="cursor-pointer" alt="Quiz Icon" width={70} height={70} />
                 <h1 className="font-bold text-xl md:text-2xl">Quiz Builder</h1>
             </div>
 
