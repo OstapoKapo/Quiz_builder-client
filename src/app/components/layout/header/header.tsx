@@ -16,35 +16,47 @@ const Header = () => {
     }
 
     return (
-        <header className="flex items-center justify-between">
-            <div className="flex items-center gap-2 ">
-                <Image src="/icons/quiz.svg" className="cursor-pointer" alt="Quiz Icon" width={70} height={70} />
-                <h1 className="font-bold text-2xl">Quiz Builder</h1>
+        <header className="flex items-center justify-between p-2 md:p-5">
+            <div className="flex items-center gap-2">
+                <Image src="/icons/quiz.svg" className="cursor-pointer" alt="Quiz Icon" width={50} height={50} />
+                <h1 className="font-bold text-xl md:text-2xl">Quiz Builder</h1>
             </div>
-            {pathname === '/quizzes' &&
-                <div className="flex gap-5 items-center">
-                    <button onClick={() => setFilterOpen(!filterOpen)} className="flex items-center gap-2 bg-[#6F51F8] w-max h-min p-2 text-xl font-medium rounded-md">
-                        <Filter />
+
+            {pathname === '/quizzes' && (
+                <div className="flex flex-col gap-2 h-12 md:flex-row md:gap-5 md:items-center">
+                    <button 
+                        onClick={() => setFilterOpen(!filterOpen)} 
+                        className="flex items-center gap-1 px-2 py-1 text-sm md:px-4 md:py-2 md:text-xl bg-[#6F51F8] rounded-md"
+                    >
+                        <Filter className="w-4 h-4 md:w-5 md:h-5" />
                         {!filterOpen ? "Filter" : "Hide"}
                     </button>
-                    <div className="h-12 w-[0.5px] bg-white"></div>
-                    <button className="gap-2 bg-[#6F51F8] flex items-center w-max h-min p-2 text-xl font-medium rounded-md">
-                        <Link className="flex items-center gap-2" href="/create">
-                            <Plus />
+                    <div className="hidden md:flex h-14 w-[1px] bg-white"></div>
+                    <button className="flex items-center gap-1 px-2 py-1 text-sm md:px-4 md:py-2 md:text-xl bg-[#6F51F8] rounded-md">
+                        <Link className="flex items-center gap-1" href="/create">
+                            <Plus className="w-4 h-4 md:w-5 md:h-5" />
                             Add New
                         </Link>
                     </button>
                 </div>
-            }
+            )}
+
             {pathname.startsWith('/quizzes/') && (
-                <button onClick={handleBack} className="gap-2 bg-[#6F51F8] flex items-center w-max p-2 text-xl font-medium rounded-md">
-                    <ArrowLeft />
+                <button 
+                    onClick={handleBack} 
+                    className="flex items-center gap-1 px-2 py-1 text-sm md:px-4 md:py-2 md:text-xl bg-[#6F51F8] rounded-md"
+                >
+                    <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
                     Back
                 </button>
             )}
-            {pathname === ('/create') && (
-                <button onClick={handleBack} className="gap-2 bg-[#6F51F8] flex items-center w-max p-2 text-xl font-medium rounded-md">
-                    <X />
+
+            {pathname === '/create' && (
+                <button 
+                    onClick={handleBack} 
+                    className="flex items-center gap-1 px-2 py-1 text-sm md:px-4 md:py-2 md:text-xl bg-[#6F51F8] rounded-md"
+                >
+                    <X className="w-4 h-4 md:w-5 md:h-5" />
                     Cancel
                 </button>
             )}
